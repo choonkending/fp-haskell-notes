@@ -10,3 +10,5 @@ data List a =
   Nil
   | a :- List a
 
+infixr 5 :-
+
