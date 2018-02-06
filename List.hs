@@ -6,7 +6,7 @@ module List where
 --  1. Controls namespaces
 --  2. Creates abstract data types
 
-import Prelude(Show, Integer, (+), seq)
+import Prelude(Show, Integer, (+), seq, (<))
 
 data List a =
   Nil
@@ -22,6 +22,11 @@ infinity ::
 infinity =
   let inf x = x :- inf (x+1)
   in inf 0
+
+from :: Integer -> List Integer
+from x =
+  let f = \x' -> if (x' < x) then (x' :- f (x' + 1)) else Nil
+  in f 0
 
 -- Common functions used over a List
 
