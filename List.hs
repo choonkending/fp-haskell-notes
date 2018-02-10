@@ -6,7 +6,7 @@ module List where
 --  1. Controls namespaces
 --  2. Creates abstract data types
 
-import Prelude(Show, Integer, (+), seq, (<))
+import Prelude(Show, Integer, (+), seq, (<), const)
 
 data List a =
   Nil
@@ -57,4 +57,40 @@ foldLeft f b (h :- t)   = foldLeft f (f b h) t
 foldLeft' :: (b -> a -> b) -> b -> List a -> b
 foldLeft' _ b Nil       = b
 foldLeft' f b (h :- t)  = let b' = f b h in seq b' foldLeft' f b' t
+
+-- | Returns the head of the list or the given default
+--
+
+headOr ::
+  a
+    -> List a
+    -> a
+
+-- Implementation 1
+-- headOr a Nil = a
+-- headOr _ (h :- t) = h
+--
+-- Implementation 2
+-- headOr =
+--   \a l ->
+--     case l of
+--       Nil -> a
+--       (h :- t) -> h
+--
+-- Implementation 3
+-- Given that we know foldRight's signature
+-- foldRight: (a -> b -> b) -> b -> List a -> b
+-- We can rewrite it in terms of foldRight
+-- headOr a l = foldRight (\a b -> a) a l
+
+-- Implementation 4
+-- \a b -> a is already a defined function in haskell
+-- const :: a -> b -> a
+-- headOr a l = foldRight const a l
+
+-- Implementation 5
+-- Point free
+headOr = foldRight const
+
+
 
