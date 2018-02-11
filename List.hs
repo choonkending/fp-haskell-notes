@@ -120,6 +120,8 @@ length ::
 -- length Nil = 0
 -- length (_ :- t) = 1 + length t
 -- length = foldRight (\_ b-> 1 + b) 0
-length = foldLeft' (\b _-> 1 + b) 0
-
+-- length = foldLeft' (\b _-> 1 + b) 0
+-- length = foldLeft' (\b a -> const (b + 1) a) 0
+-- length = foldLeft' (\b -> const (b + 1)) 0
+length = foldLeft' (const . (+) 1) 0
 
