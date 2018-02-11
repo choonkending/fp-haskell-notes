@@ -6,7 +6,7 @@ module List where
 --  1. Controls namespaces
 --  2. Creates abstract data types
 
-import Prelude(Show, Integer, (+), seq, (<), const)
+import Prelude(Show, Integer, (+), seq, (<), const, (*), (.))
 
 data List a =
   Nil
@@ -92,5 +92,34 @@ headOr ::
 -- Point free
 headOr = foldRight const
 
+-- | The product of the elements of a list.
+--
+product ::
+  List Integer
+  -> Integer
+-- product Nil      = 1
+-- product (h :- t) = h * product t
+-- product = foldLeft (*) 1
+product = foldRight (*) 1
+
+-- | Sum the elements of the list
+--
+sum ::
+  List Integer
+  -> Integer
+-- sum Nil = 0
+-- sum (h :- t) = h + sum t
+-- sum = foldLeft (+) 0
+sum = foldRight (+) 0
+
+-- | Return the length of the list
+--
+length ::
+  List a
+  -> Integer
+-- length Nil = 0
+-- length (_ :- t) = 1 + length t
+-- length = foldRight (\_ b-> 1 + b) 0
+length = foldLeft' (\b _-> 1 + b) 0
 
 
