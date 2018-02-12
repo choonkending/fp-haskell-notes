@@ -125,3 +125,12 @@ length ::
 -- length = foldLeft' (\b -> const (b + 1)) 0
 length = foldLeft' (const . (+) 1) 0
 
+
+-- | Map the given function on each element of the list.
+--
+map ::
+  (a -> b)
+  -> List a
+  -> List b
+map _ Nil = Nil
+map f (h :- t) = f h :- map f t
