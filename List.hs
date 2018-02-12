@@ -6,7 +6,7 @@ module List where
 --  1. Controls namespaces
 --  2. Creates abstract data types
 
-import Prelude(Show, Integer, (+), seq, (<), const, (*), (.))
+import Prelude(Show, Integer, (+), seq, (<), const, (*), (.), Bool(..), (==))
 
 data List a =
   Nil
@@ -134,3 +134,22 @@ map ::
   -> List b
 map _ Nil = Nil
 map f (h :- t) = f h :- map f t
+
+-- | Return elements satisfying the given predicate
+--
+filter ::
+  (a -> Bool)
+  -> List a
+  -> List a
+filter _ Nil = Nil
+-- filter f (h :- t) =
+--   if (f h) == True
+--      then h :- filter f t
+--   else filter f t
+filter f (h :- t) =
+  let x = filter f t
+   in
+    if f h == True
+       then h :- x
+       else x
+
