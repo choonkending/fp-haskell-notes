@@ -141,15 +141,18 @@ filter ::
   (a -> Bool)
   -> List a
   -> List a
-filter _ Nil = Nil
+-- filter _ Nil = Nil
 -- filter f (h :- t) =
 --   if (f h) == True
 --      then h :- filter f t
 --   else filter f t
-filter f (h :- t) =
-  let x = filter f t
-   in
-    if f h == True
-       then h :- x
-       else x
-
+-- filter f (h :- t) =
+--   let x = filter f t
+--    in
+--     if f h == True
+--        then h :- x
+--        else x
+filter f = foldRight (\a b ->
+  if (f a) == True
+    then a :- b
+  else b) Nil
